@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#this file must be run under root and changed to chmod 777
+
+#run this file in /boot/ directory
+
+
+vml="$(ls vm* -1t | head -1)"  
+ind="$(ls in* -1t | head -1)" 
+
+echo "default=0
+timeout=5
+splashimage=(hd0,0)/grub/splash.xpm.gz
+hiddenmenu
+title CentOS (${vml})
+	root (hd0,0)
+	kernel /${vml} ro root=/dev/mapper/vg_livedvd-lv_root rd_NO_LUKS LANG=en_US.UTF-8 rd_LVM_LV=vg_livedvd/lv_root rd_NO_MD SYSFONT=latarcyrheb-sun16 crashkernel=128M rd_LVM_LV=vg_livedvd/lv_swap  KEYBOARDTYPE=pc KEYTABLE=us rd_NO_DM rhgb quiet
+	initrd /${ind}
+title CentOS Linux 6 (${vml})
+	root (hd0,0)
+	kernel /${vml} ro root=/dev/mapper/vg_livedvd-lv_root rd_NO_LUKS LANG=en_US.UTF-8 rd_LVM_LV=vg_livedvd/lv_root rd_NO_MD SYSFONT=latarcyrheb-sun16 crashkernel=128M rd_LVM_LV=vg_livedvd/lv_swap  KEYBOARDTYPE=pc KEYTABLE=us rd_NO_DM rhgb quiet
+	initrd /${ind}" > '/boot/grub/grub.conf'
+
+
+#reboot
+
+
+
